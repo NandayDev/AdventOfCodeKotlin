@@ -66,8 +66,6 @@ fun main() {
         return sum.toString()
     }
 
-
-
     fun part2(input: List<String>): String {
         val singleCardsMap = mapOf<Char, Byte>(
             'A' to 0x0E,

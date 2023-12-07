@@ -45,26 +45,25 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        val schematic = input
         var sum = 0
-        schematic.forEachIndexed { i, line ->
+        input.forEachIndexed { i, line ->
             line.forEachIndexed { k, char ->
                 if (char == '*') {
                     var firstNumber: FoundNumber? = null
                     var secondNumber: FoundNumber? = null
                     for (l in i - 1 .. i + 1) {
-                        if (l < 0 || l > schematic.size - 1) {
+                        if (l < 0 || l > input.size - 1) {
                             continue
                         }
                         for (j in k - 1 .. k + 1) {
                             if (j < 0 || j > line.length - 1) {
                                 continue
                             }
-                            if (schematic[l][j].isDigit()) {
+                            if (input[l][j].isDigit()) {
                                 if (firstNumber == null) {
-                                    firstNumber = findNumber(schematic[l], j)
+                                    firstNumber = findNumber(input[l], j)
                                 } else if (secondNumber == null) {
-                                    val num = findNumber(schematic[l], j)
+                                    val num = findNumber(input[l], j)
                                     if (num != firstNumber) {
                                         secondNumber = num
                                     }

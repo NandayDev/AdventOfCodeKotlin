@@ -42,9 +42,7 @@ fun main() {
                 "blue" to 0
             )
             val subLines = line.split(":")
-            val gameId = "Game (?<id>\\d+)".toRegex().findAll(subLines[0]).first().groups["id"]!!.value.toInt()
             val parts = subLines[1].split(";")
-            var valid = true
             for (part in parts) {
                 val elements = part.split(",")
                 for (element in elements) {
