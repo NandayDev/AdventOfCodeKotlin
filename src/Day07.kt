@@ -2,13 +2,13 @@ import java.math.BigInteger
 
 
 // Types values //
-const val fiveOfAKind: Byte = 0x07
-const val fourOfAKind: Byte = 0x06
-const val fullHouse: Byte = 0x05
-const val threeOfAKind: Byte = 0x04
-const val twoPair: Byte = 0x03
-const val onePair: Byte = 0x02
-const val highCard: Byte = 0x01
+private const val FIVE_OF_A_KIND: Byte = 0x07
+private const val FOUR_OF_A_KIND: Byte = 0x06
+private const val FULL_HOUSE: Byte = 0x05
+private const val THREE_OF_A_KIND: Byte = 0x04
+private const val TWO_PAIR: Byte = 0x03
+private const val ONE_PAIR: Byte = 0x02
+private const val HIGH_CARD: Byte = 0x01
 
 fun main() {
     fun part1(input: List<String>): String {
@@ -38,21 +38,21 @@ fun main() {
             }
             val orderedValues = cardMap.values.sortedDescending()
             array[0] = when (orderedValues[0]) {
-                5 -> fiveOfAKind
-                4 -> fourOfAKind
+                5 -> FIVE_OF_A_KIND
+                4 -> FOUR_OF_A_KIND
                 3 -> if (orderedValues[1] == 2) {
-                    fullHouse
+                    FULL_HOUSE
                 } else {
-                    threeOfAKind
+                    THREE_OF_A_KIND
                 }
 
                 2 -> if (orderedValues[1] == 2) {
-                    twoPair
+                    TWO_PAIR
                 } else {
-                    onePair
+                    ONE_PAIR
                 }
 
-                else -> highCard
+                else -> HIGH_CARD
             }
 
             handsAndBets.add(BigInteger(array).toLong() to handAndBet[1].toInt())
@@ -118,48 +118,48 @@ fun evaluateSecondPartCard(cardMap: Map<Char, Int>): Byte {
     val orderedValues = cardMap.values.sortedDescending()
     val jokers = cardMap['J'] ?: 0
     return when (orderedValues[0]) {
-        5 -> fiveOfAKind
-        4 -> if (jokers > 0) fiveOfAKind else fourOfAKind
+        5 -> FIVE_OF_A_KIND
+        4 -> if (jokers > 0) FIVE_OF_A_KIND else FOUR_OF_A_KIND
         3 -> when (jokers) {
-            1 -> fourOfAKind
-            2 -> fiveOfAKind
+            1 -> FOUR_OF_A_KIND
+            2 -> FIVE_OF_A_KIND
             3 -> if (orderedValues[1] == 2) {
-                fiveOfAKind
+                FIVE_OF_A_KIND
             } else {
-                fourOfAKind
+                FOUR_OF_A_KIND
             }
 
             else -> if (orderedValues[1] == 2) {
-                fullHouse
+                FULL_HOUSE
             } else {
-                threeOfAKind
+                THREE_OF_A_KIND
             }
         }
 
         2 -> when (jokers) {
             2 -> if (orderedValues[1] == 2) {
-                fourOfAKind
+                FOUR_OF_A_KIND
             } else {
-                threeOfAKind
+                THREE_OF_A_KIND
             }
 
             1 -> if (orderedValues[1] == 2) {
-                fullHouse
+                FULL_HOUSE
             } else {
-                threeOfAKind
+                THREE_OF_A_KIND
             }
 
             else -> if (orderedValues[1] == 2) {
-                twoPair
+                TWO_PAIR
             } else {
-                onePair
+                ONE_PAIR
             }
         }
 
         else -> if (jokers == 1) {
-            onePair
+            ONE_PAIR
         } else {
-            highCard
+            HIGH_CARD
         }
     }
 }
