@@ -1,24 +1,74 @@
 fun main() {
 
     fun part1(input: List<String>): String {
-        val (startingX, startingY) = getStartingPoints(input)
+        val (startingY, startingX) = getStartingPoints(input)
         val startingPoint = Point(startingX, startingY, 0, 0, startingX, startingY, 0)
         val loop = getLoop(input, startingPoint)
         return loop.maxDistance.toString()
     }
 
     fun part2(input: List<String>): String {
-        val (startingX, startingY) = getStartingPoints(input)
+        val (startingY, startingX) = getStartingPoints(input)
         val startingPoint = Point(startingX, startingY, 0, 0, startingX, startingY, 0)
         val loop = getLoop(input, startingPoint)
-
-        return ""
+        val loopMap = loop.points.associateBy { it.key }
+        val emptyPoints = mutableListOf<Point>()
+        for (y in input.indices) {
+            for (x in input[y].indices) {
+                if (input[y][x] == '.') {
+                    emptyPoints.add(Point(0, 0, 0, 0, x, y, 0))
+                }
+            }
+        }
+        var totalArea = 0
+        for (emptyPoint in emptyPoints) {
+            val currentList = mutableListOf(emptyPoint)
+            val checkedSet = mutableMapOf(emptyPoint.key to emptyPoint)
+            while (true) {
+                var foundNeighbours = 0
+                var valid = true
+                var area = 1
+                for (currentPoint in currentList.toList()) {
+                    for (point in listOf(
+                        currentPoint.west(),
+                        currentPoint.north(),
+                        currentPoint.east(),
+                        currentPoint.south())
+                    ) {
+                        if (point.key in checkedSet) continue
+                        checkedSet[point.key] = point
+                        when (point.getType(input)) {
+                            Point.Type.OUT_OF_BOUNDS -> valid = false
+                            Point.Type.NO_PIPE -> {
+                                area++
+                                currentList.add(point)
+                                foundNeighbours++
+                            }
+                            else -> {
+                                if (point.key !in loopMap) {
+                                    valid = false
+                                }
+                            }
+                        }
+                        if (!valid) break
+                    }
+                    if (!valid) break
+                }
+                if (!valid) break
+                if (foundNeighbours == 0) {
+                    totalArea += area
+                    break
+                }
+            }
+        }
+        return totalArea.toString()
     }
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day10_test")
     check(part1(testInput) == "8")
-    check(part2(testInput) == "")
+    val test2Input = readInput("Day10_test2")
+    check(part2(test2Input) == "8")
 
     val input = readInput("Day10")
     part1(input).println()
@@ -28,16 +78,16 @@ fun main() {
 private fun getStartingPoints(input: List<String>): Pair<Int, Int> {
     var startingX = 0
     var startingY = 0
+    var found = false
     for (y in input.indices) {
         for (x in input[y].indices) {
             if (input[y][x] == 'S') {
                 startingY = y
                 startingX = x
+                found = true
                 break
             }
-            if (startingX != 0 || startingY != 0) {
-                break
-            }
+            if (found) break
         }
     }
     return startingY to startingX
@@ -49,6 +99,7 @@ private fun getLoop(
 ): Loop {
     var maxLoop = listOf<Point>()
     var maxDistance = 0
+
     var westPoint: Point? = startingPoint.west()
     val westPointLoop = mutableListOf<Point>()
     while (true) {
@@ -64,7 +115,9 @@ private fun getLoop(
             }
             break
         }
-        westPoint = getNextPoint(input, westPoint)
+        westPoint = getNextPoint(input, westPoint)?.also {
+            westPointLoop.add(it)
+        }
     }
 
     var southPoint: Point? = startingPoint.south()
@@ -81,7 +134,9 @@ private fun getLoop(
             }
             break
         }
-        southPoint = getNextPoint(input, southPoint)
+        southPoint = getNextPoint(input, southPoint)?.also {
+            southPointLoop.add(it)
+        }
     }
 
     var eastPoint: Point? = startingPoint.east()
@@ -98,7 +153,9 @@ private fun getLoop(
             }
             break
         }
-        eastPoint = getNextPoint(input, eastPoint)
+        eastPoint = getNextPoint(input, eastPoint)?.also {
+            eastPointLoop.add(it)
+        }
     }
 
     var northPoint: Point? = startingPoint.north()
@@ -115,7 +172,9 @@ private fun getLoop(
             }
             break
         }
-        northPoint = getNextPoint(input, northPoint)
+        northPoint = getNextPoint(input, northPoint)?.also {
+            northPointLoop.add(it)
+        }
     }
     return Loop(maxLoop, maxDistance)
 }
@@ -159,7 +218,7 @@ private fun getNextPoint(
             point.previousX == point.currentX + 1 -> point.south()
             else -> null // previous pipe not connected to this one
         }
-        Point.Type.NO_PIPE, Point.Type.INVALID -> null // No pipe or invalid
+        Point.Type.NO_PIPE, Point.Type.OUT_OF_BOUNDS, Point.Type.STARTING_POINT -> null // No pipe or invalid
     }
 }
 
@@ -172,22 +231,26 @@ data class Point(
     val currentY: Int,
     val currentDistance: Int
 ) {
+
+    val key = "$currentY,$currentX"
+
     enum class Type {
-        INVALID,
+        OUT_OF_BOUNDS,
         NO_PIPE,
         NORTH_SOUTH,
         WEST_EAST,
         NORTH_EAST,
         NORTH_WEST,
         SOUTH_EAST,
-        SOUTH_WEST
+        SOUTH_WEST,
+        STARTING_POINT
     }
 
     fun isStartingPoint() = currentX == startingX && currentY == startingY
 
     fun getType(input: List<String>): Type {
         if (currentX < 0 || currentX >= input[0].length || currentY < 0 || currentY >= input.size) {
-            return Type.INVALID
+            return Type.OUT_OF_BOUNDS
         }
         return when (input[currentY][currentX]) {
             '.' -> Type.NO_PIPE
@@ -197,6 +260,7 @@ data class Point(
             'J' -> Type.NORTH_WEST
             '7' -> Type.SOUTH_WEST
             'F' -> Type.SOUTH_EAST
+            'S' -> Type.STARTING_POINT
             else -> throw IllegalArgumentException()
         }
     }
