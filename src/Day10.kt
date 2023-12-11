@@ -12,56 +12,82 @@ fun main() {
         val startingPoint = Point(startingX, startingY, 0, 0, startingX, startingY, 0)
         val loop = getLoop(input, startingPoint)
         val loopMap = loop.points.associateBy { it.key }
-        val emptyPoints = mutableListOf<Point>()
+        var withinLoopPoints = 0
         for (y in input.indices) {
             for (x in input[y].indices) {
-                if (input[y][x] == '.') {
-                    emptyPoints.add(Point(0, 0, 0, 0, x, y, 0))
-                }
-            }
-        }
-        var totalArea = 0
-        for (emptyPoint in emptyPoints) {
-            val currentList = mutableListOf(emptyPoint)
-            val checkedSet = mutableMapOf(emptyPoint.key to emptyPoint)
-            while (true) {
-                var foundNeighbours = 0
-                var valid = true
-                var area = 1
-                for (currentPoint in currentList.toList()) {
-                    for (point in listOf(
-                        currentPoint.west(),
-                        currentPoint.north(),
-                        currentPoint.east(),
-                        currentPoint.south())
-                    ) {
-                        if (point.key in checkedSet) continue
-                        checkedSet[point.key] = point
-                        when (point.getType(input)) {
-                            Point.Type.OUT_OF_BOUNDS -> valid = false
-                            Point.Type.NO_PIPE -> {
-                                area++
-                                currentList.add(point)
-                                foundNeighbours++
-                            }
-                            else -> {
-                                if (point.key !in loopMap) {
-                                    valid = false
+                if ("$y,$x" !in loopMap) {
+                    // Check if within loop //
+                    var inLoopVertical = false
+                    var inLoopHorizontal = false
+                    var direction = 0 // 0 none, 1 up, 2 down
+                    for (i in 0..y) {
+                        val point = "$i,$x"
+                        loopMap[point]?.let {
+                            when (input[i][x]) {
+                                '-' -> {
+                                    inLoopVertical = !inLoopVertical
+                                    direction = 0
+                                }
+                                '.' -> direction = 0
+                                'F','L' -> {
+                                    when (direction) {
+                                        1 -> {
+                                            inLoopVertical = !inLoopVertical
+                                            direction = 0
+                                        }
+                                        2 -> direction = 0
+                                        else -> direction = 2
+                                    }
+                                }
+                                '7','J' -> when (direction) {
+                                    1 -> direction = 0
+                                    2 -> {
+                                        inLoopVertical = !inLoopVertical
+                                        direction = 0
+                                    }
+                                    else -> direction = 1
                                 }
                             }
                         }
-                        if (!valid) break
                     }
-                    if (!valid) break
-                }
-                if (!valid) break
-                if (foundNeighbours == 0) {
-                    totalArea += area
-                    break
+                    direction = 0 // 1 west, 2 east
+                    for (i in 0..x) {
+                        val point = "$y,$i"
+                        loopMap[point]?.let {
+                            when (input[y][i]) {
+                                '|' -> {
+                                    inLoopHorizontal = !inLoopHorizontal
+                                    direction = 0
+                                }
+                                '.' -> direction = 0
+                                'F','7' -> {
+                                    when (direction) {
+                                        1 -> {
+                                            inLoopHorizontal = !inLoopHorizontal
+                                            direction = 0
+                                        }
+                                        2 -> direction = 0
+                                        else -> direction = 2
+                                    }
+                                }
+                                'L','J' -> when (direction) {
+                                    1 -> direction = 0
+                                    2 -> {
+                                        inLoopHorizontal = !inLoopHorizontal
+                                        direction = 0
+                                    }
+                                    else -> direction = 1
+                                }
+                            }
+                        }
+                    }
+                    if (inLoopVertical && inLoopHorizontal) {
+                        withinLoopPoints++
+                    }
                 }
             }
         }
-        return totalArea.toString()
+        return withinLoopPoints.toString()
     }
 
     // test if implementation meets criteria from the description, like:
@@ -69,6 +95,8 @@ fun main() {
     check(part1(testInput) == "8")
     val test2Input = readInput("Day10_test2")
     check(part2(test2Input) == "8")
+    val test3Input = readInput("Day10_test3")
+    check(part2(test3Input) == "10")
 
     val input = readInput("Day10")
     part1(input).println()
@@ -102,6 +130,7 @@ private fun getLoop(
 
     var westPoint: Point? = startingPoint.west()
     val westPointLoop = mutableListOf<Point>()
+    westPoint?.let { westPointLoop.add(it) }
     while (true) {
         if (westPoint == null) {
             break
@@ -122,6 +151,7 @@ private fun getLoop(
 
     var southPoint: Point? = startingPoint.south()
     val southPointLoop = mutableListOf<Point>()
+    southPoint?.let { southPointLoop.add(it) }
     while (true) {
         if (southPoint == null) {
             break
@@ -141,6 +171,7 @@ private fun getLoop(
 
     var eastPoint: Point? = startingPoint.east()
     val eastPointLoop = mutableListOf<Point>()
+    eastPoint?.let { eastPointLoop.add(it) }
     while (true) {
         if (eastPoint == null) {
             break
@@ -160,6 +191,7 @@ private fun getLoop(
 
     var northPoint: Point? = startingPoint.north()
     val northPointLoop = mutableListOf<Point>()
+    northPoint?.let { northPointLoop.add(it) }
     while (true) {
         if (northPoint == null) {
             break
