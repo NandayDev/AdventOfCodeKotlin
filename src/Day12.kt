@@ -1,8 +1,16 @@
 fun main() {
     fun part1(input: List<String>): String {
+        for (line in input) {
+            val (springSet, groups) = line.split(" ").let {
+                it[0] to it[1].split(",").map { n -> n.toInt() }
+            }
+            val nonEmpty = springSet.split(".")
+            groups.forEachIndexed { i, g ->
+                if (g == nonEmpty[i].length) {
 
-
-
+                }
+            }
+        }
         return ""
     }
 
