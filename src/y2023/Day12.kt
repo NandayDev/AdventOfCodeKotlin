@@ -1,3 +1,8 @@
+package y2023
+
+import println
+import readInput
+
 fun main() {
     fun part1(input: List<String>): String {
         for (line in input) {
@@ -5,10 +10,8 @@ fun main() {
                 it[0] to it[1].split(",").map { n -> n.toInt() }
             }
             val nonEmpty = springSet.split(".")
-            groups.forEachIndexed { i, g ->
-                if (g == nonEmpty[i].length) {
-
-                }
+            groups.forEachIndexed { i, group ->
+                
             }
         }
         return ""

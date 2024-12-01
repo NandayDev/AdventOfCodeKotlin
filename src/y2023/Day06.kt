@@ -1,3 +1,8 @@
+package y2023
+
+import println
+import readInput
+
 fun main() {
     fun part1(input: List<String>): Int {
         val times = "\\d+".toRegex().findAll(input[0]).map { it.value.toInt() }.toList()

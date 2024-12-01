@@ -1,3 +1,9 @@
+package y2023
+
+import findLCMOfListOfNumbers
+import println
+import readInput
+
 fun main() {
     fun part1(input: List<String>): String {
         val instructions = input[0]

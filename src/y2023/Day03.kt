@@ -1,3 +1,8 @@
+package y2023
+
+import println
+import readInput
+
 fun main() {
     fun Char.isValidSymbol(): Boolean {
         return !isDigit() && this != '.'

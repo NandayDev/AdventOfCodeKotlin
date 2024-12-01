@@ -1,3 +1,8 @@
+package y2023
+
+import println
+import readInput
+
 fun main() {
     fun part1(input: List<String>): Long {
         var seeds = input[0].split(": ")[1].split(" ").map { it.toLong() }
