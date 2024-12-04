@@ -30,6 +30,7 @@ fun main() {
                     // End of map //
                     updateSeeds()
                 }
+
                 line.contains("map") -> {}
                 else -> {
                     val values = line.split(" ").map { it.toLong() }
@@ -57,6 +58,7 @@ fun main() {
                     // End of map //
                     modifiers.add(mutableListOf())
                 }
+
                 line.contains("map") -> {}
                 else -> {
                     val values = line.split(" ").map { it.toLong() }

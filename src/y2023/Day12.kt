@@ -11,7 +11,7 @@ fun main() {
             }
             val nonEmpty = springSet.split(".")
             groups.forEachIndexed { i, group ->
-                
+
             }
         }
         return ""

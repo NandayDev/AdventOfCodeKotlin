@@ -31,10 +31,11 @@ private fun part1(input: List<String>): Int {
             }
             val currentInt = current.toInt()
             if (increasing == null && previousInt != null) {
-                increasing = if (currentInt > previousInt) true else if (currentInt < previousInt) false else {
-                    safeReport = false
-                    break
-                }
+                increasing =
+                    if (currentInt > previousInt) true else if (currentInt < previousInt) false else {
+                        safeReport = false
+                        break
+                    }
             }
 
             if (previousInt != null) {

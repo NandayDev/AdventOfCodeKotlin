@@ -20,7 +20,7 @@ fun main() {
                     val realK = if (char.isDigit()) k + 1 else k
                     currentNumber.toIntOrNull()?.let { number ->
                         var foundSymbol = false
-                        for (l in i - 1 .. i + 1) {
+                        for (l in i - 1..i + 1) {
                             if (l < 0 || l > input.size - 1) {
                                 continue
                             }
@@ -56,11 +56,11 @@ fun main() {
                 if (char == '*') {
                     var firstNumber: FoundNumber? = null
                     var secondNumber: FoundNumber? = null
-                    for (l in i - 1 .. i + 1) {
+                    for (l in i - 1..i + 1) {
                         if (l < 0 || l > input.size - 1) {
                             continue
                         }
-                        for (j in k - 1 .. k + 1) {
+                        for (j in k - 1..k + 1) {
                             if (j < 0 || j > line.length - 1) {
                                 continue
                             }

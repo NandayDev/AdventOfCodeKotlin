@@ -33,23 +33,27 @@ fun main() {
                                     inLoopVertical = !inLoopVertical
                                     direction = 0
                                 }
+
                                 '.' -> direction = 0
-                                'F','L' -> {
+                                'F', 'L' -> {
                                     when (direction) {
                                         1 -> {
                                             inLoopVertical = !inLoopVertical
                                             direction = 0
                                         }
+
                                         2 -> direction = 0
                                         else -> direction = 2
                                     }
                                 }
-                                '7','J' -> when (direction) {
+
+                                '7', 'J' -> when (direction) {
                                     1 -> direction = 0
                                     2 -> {
                                         inLoopVertical = !inLoopVertical
                                         direction = 0
                                     }
+
                                     else -> direction = 1
                                 }
                             }
@@ -64,23 +68,27 @@ fun main() {
                                     inLoopHorizontal = !inLoopHorizontal
                                     direction = 0
                                 }
+
                                 '.' -> direction = 0
-                                'F','7' -> {
+                                'F', '7' -> {
                                     when (direction) {
                                         1 -> {
                                             inLoopHorizontal = !inLoopHorizontal
                                             direction = 0
                                         }
+
                                         2 -> direction = 0
                                         else -> direction = 2
                                     }
                                 }
-                                'L','J' -> when (direction) {
+
+                                'L', 'J' -> when (direction) {
                                     1 -> direction = 0
                                     2 -> {
                                         inLoopHorizontal = !inLoopHorizontal
                                         direction = 0
                                     }
+
                                     else -> direction = 1
                                 }
                             }
@@ -230,31 +238,37 @@ private fun getNextPoint(
             point.currentY - 1 -> point.south()
             else -> null // previous pipe not connected to this one
         }
+
         Point.Type.WEST_EAST -> when (point.previousX) {
             point.currentX + 1 -> point.west()
             point.currentX - 1 -> point.east()
             else -> null // previous pipe not connected to this one
         }
+
         Point.Type.NORTH_EAST -> when {
             point.previousY == point.currentY - 1 -> point.east()
             point.previousX == point.currentX + 1 -> point.north()
             else -> null // previous pipe not connected to this one
         }
+
         Point.Type.NORTH_WEST -> when {
             point.previousY == point.currentY - 1 -> point.west()
             point.previousX == point.currentX - 1 -> point.north()
             else -> null // previous pipe not connected to this one
         }
+
         Point.Type.SOUTH_WEST -> when {
             point.previousY == point.currentY + 1 -> point.west()
             point.previousX == point.currentX - 1 -> point.south()
             else -> null // previous pipe not connected to this one
         }
+
         Point.Type.SOUTH_EAST -> when {
             point.previousY == point.currentY + 1 -> point.east()
             point.previousX == point.currentX + 1 -> point.south()
             else -> null // previous pipe not connected to this one
         }
+
         Point.Type.NO_PIPE, Point.Type.OUT_OF_BOUNDS, Point.Type.STARTING_POINT -> null // No pipe or invalid
     }
 }

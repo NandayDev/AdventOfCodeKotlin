@@ -41,8 +41,8 @@ fun main() {
             "nine" to 9
         )
         for (line in input) {
-            var firstNumber : Int? = null
-            var secondNumber : Int? = null
+            var firstNumber: Int? = null
+            var secondNumber: Int? = null
             var s = ""
             for (c in line) {
                 if (c.isDigit()) {

@@ -26,10 +26,12 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        val time = "\\d+".toRegex().findAll(input[0]).joinToString(separator = "") { it.value }.toLong()
-        val recordDistance = "\\d+".toRegex().findAll(input[1]).joinToString(separator = "") { it.value }.toLong()
+        val time =
+            "\\d+".toRegex().findAll(input[0]).joinToString(separator = "") { it.value }.toLong()
+        val recordDistance =
+            "\\d+".toRegex().findAll(input[1]).joinToString(separator = "") { it.value }.toLong()
         var beatRecordCount = 0
-        for (timeHoldingButton in 1 .. time) {
+        for (timeHoldingButton in 1..time) {
             val distanceTravelled = timeHoldingButton * (time - timeHoldingButton)
             if (distanceTravelled > recordDistance) {
                 beatRecordCount++

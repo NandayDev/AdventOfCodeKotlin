@@ -13,13 +13,15 @@ fun main() {
         var sum = 0
         for (line in input) {
             val subLines = line.split(":")
-            val gameId = "Game (?<id>\\d+)".toRegex().findAll(subLines[0]).first().groups["id"]!!.value.toInt()
+            val gameId = "Game (?<id>\\d+)".toRegex().findAll(subLines[0])
+                .first().groups["id"]!!.value.toInt()
             val parts = subLines[1].split(";")
             var valid = true
             for (part in parts) {
                 val elements = part.split(",")
                 for (element in elements) {
-                    val foundFromRegex = " (?<number>\\d+) (?<color>\\w+)".toRegex().findAll(element)
+                    val foundFromRegex =
+                        " (?<number>\\d+) (?<color>\\w+)".toRegex().findAll(element)
                     for (found in foundFromRegex) {
                         val number = found.groups["number"]!!.value.toInt()
                         val color = found.groups["color"]!!.value
@@ -51,7 +53,8 @@ fun main() {
             for (part in parts) {
                 val elements = part.split(",")
                 for (element in elements) {
-                    val foundFromRegex = " (?<number>\\d+) (?<color>\\w+)".toRegex().findAll(element)
+                    val foundFromRegex =
+                        " (?<number>\\d+) (?<color>\\w+)".toRegex().findAll(element)
                     for (found in foundFromRegex) {
                         val number = found.groups["number"]!!.value.toInt()
                         val color = found.groups["color"]!!.value
