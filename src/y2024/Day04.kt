@@ -84,9 +84,11 @@ private fun part2(input: List<String>): Int {
             }
             if (input[i + 1][k + 1] == 'A') {
                 if ((input[i][k] == 'M' && input[i + 2][k + 2] == 'S')
-                    || (input[i][k] == 'S' && input[i + 2][k + 2] == 'M')) {
+                    || (input[i][k] == 'S' && input[i + 2][k + 2] == 'M')
+                ) {
                     if ((input[i][k + 2] == 'M' && input[i + 2][k] == 'S')
-                        || (input[i][k + 2] == 'S' && input[i + 2][k] == 'M')) {
+                        || (input[i][k + 2] == 'S' && input[i + 2][k] == 'M')
+                    ) {
                         xmasFound++
                     }
                 }
