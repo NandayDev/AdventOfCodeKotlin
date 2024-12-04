@@ -2,6 +2,7 @@ package y2023
 
 import println
 import readInput
+import kotlin.math.pow
 
 fun main() {
     fun part1(input: List<String>): String {
@@ -18,6 +19,8 @@ fun main() {
     }
 
     fun part2(input: List<String>): String {
+        val result = 2 * (10.0.pow(31.0))
+        Int.MAX_VALUE
         return ""
     }
 
