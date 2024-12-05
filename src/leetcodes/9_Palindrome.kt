@@ -28,7 +28,7 @@ private fun isPalindrome(x: Int): Boolean {
 private fun isSame(x: Int, leftDivider: Int, rightDivider: Int): Boolean {
     for (i in 9 downTo 0) {
         var divider = 1
-        for (k in 0..i)
+        //for (k in 0..i)
     }
 
 
