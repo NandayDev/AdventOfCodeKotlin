@@ -1,5 +1,7 @@
 package leetcodes
 
+import kotlin.math.pow
+
 fun main() {
     for (test in tests) {
         val mySolution = isPalindrome(test.first)
@@ -27,8 +29,12 @@ private fun isPalindrome(x: Int): Boolean {
 
 private fun isSame(x: Int, leftDivider: Int, rightDivider: Int): Boolean {
     for (i in 9 downTo 0) {
-        var divider = 1
-        //for (k in 0..i)
+        var divider = 1.0
+        for (k in 0..i) {
+            if (x / divider.pow(k) == 0.0) {
+                continue
+            }
+        }
     }
 
 
