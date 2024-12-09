@@ -179,9 +179,9 @@ private fun part2(input: List<String>): Int {
     return validObstaclesForLoops.size
 }
 
-data class Position(val row: Int, val column: Int)
+private data class Position(val row: Int, val column: Int)
 
-data class PositionAndDirection(val row: Int, val column: Int, val direction: Direction)
+private data class PositionAndDirection(val row: Int, val column: Int, val direction: Direction)
 
 enum class Direction(private val index: Int) {
     UP(0),
